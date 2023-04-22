@@ -29,7 +29,7 @@ let menu = [
     "牛丼",
     "生姜焼き",
     "スパゲッティ",
-    "うな丼",
+    "うなぎ",
     "ぶり大根",
     "コロッケ",
     "しゃぶしゃぶ",
@@ -56,6 +56,8 @@ let menu = [
     "魚",
 
 ]
+
+let past = ["-"]
 
 let button = document.getElementById("button")
 let menuShowing = document.getElementById("menu-showing")
@@ -99,7 +101,40 @@ removeAllButton.addEventListener("click", () => {
     showLocalStorage()
 })
 
+pastLocalStorage = localStorage
+pastLocalStorage.removeItem("pastText")
+if (pastLocalStorage.getItem("pastText") == null) {
+    pastLocalStorage.setItem("pastText", past.toString())
+}
+
+let pastButton = document.getElementById("past-button")
+pastButton.addEventListener("click", () => {
+    let pastText = localStorage.getItem("pastText")
+    let pastMenu = document.getElementById("past-menu")
+    pastText += "," + pastMenu.value
+    console.log(pastText)
+    localStorage.setItem("pastText", pastText)
+    showPastLocalStorage()
+})
+
+showPastLocalStorage()
+
+let backButton = document.getElementById("back-button")
+backButton.addEventListener("click", () => {
+    let pastText = localStorage.getItem("pastText")
+    let pastMenuText = pastText.split(",").slice(0,-1).toString()
+    let pastMenu = document.getElementById("past-menu")
+    console.log(pastMenuText)
+    localStorage.setItem("pastText", pastMenuText)
+    showPastLocalStorage()
+})
+
 function showLocalStorage(){
     let ls = document.getElementById("local-storage")
     ls.innerHTML = localStorage.getItem("menuText")
+}
+
+function showPastLocalStorage(){
+    let ls = document.getElementById("past-local-storage")
+    ls.innerHTML = pastLocalStorage.getItem("pastText")
 }
