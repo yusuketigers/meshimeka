@@ -1,9 +1,6 @@
 console.log("aiu")
 
-
-
-
-let menu = [
+let batter = [
     "近本",
     "中野",
     "ノイジー",
@@ -15,12 +12,16 @@ let menu = [
     "村上"
 ]
 
-let button = document.getElementById("button");
-let menuShowing = document.getElementById("menu-showing")
-let currentIndex = 0; // Keep track of the current index
-button.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % menu.length; // Update the current index to the next item
-    menuShowing.innerHTML = menu[currentIndex]; // Display the next item
+let hitButton = document.getElementById("hit-button");
+let batterShowing = document.getElementById("batter-showing")
+let battercurrentIndex = 0;
+hitButton.addEventListener("click", () => {
+    battercurrentIndex = (battercurrentIndex + 1) % batter.length;
+    batterShowing.innerHTML = batter[battercurrentIndex];
+    strikecurrentIndex = 0
+    strikeShowing.innerHTML = strike[strikecurrentIndex];
+    ballcurrentIndex = 0
+    ballShowing.innerHTML = ball[ballcurrentIndex];
 });
 
 let out = [
@@ -30,17 +31,22 @@ let out = [
 ]
 
 let outShowing = document.getElementById("out-showing")
-let outcurrentIndex = 0; // Keep track of the current index
-let outbutton = document.getElementById("out-button");
-outbutton.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % menu.length; // Update the current index to the next item
-    menuShowing.innerHTML = menu[currentIndex]; // Display the next item
-    outcurrentIndex = (outcurrentIndex + 1) % out.length; // Update the current index to the next item
-    outShowing.innerHTML = out[outcurrentIndex]; // Display the next item
-    strikecurrentIndex = 0 // Update the current index to the next item
-    strikeShowing.innerHTML = strike[strikecurrentIndex]; // Display the next item
-    ballcurrentIndex = 0 // Update the current index to the next item
-    ballShowing.innerHTML = ball[ballcurrentIndex]; // Display the next item
+let outcurrentIndex = 0;
+let outButton = document.getElementById("out-button");
+outButton.addEventListener("click", () => {
+    battercurrentIndex = (battercurrentIndex + 1) % batter.length; 
+    batterShowing.innerHTML = batter[battercurrentIndex];
+    outcurrentIndex = (outcurrentIndex + 1) % out.length;
+    outShowing.innerHTML = out[outcurrentIndex];
+    strikecurrentIndex = 0
+    strikeShowing.innerHTML = strike[strikecurrentIndex];
+    ballcurrentIndex = 0
+    ballShowing.innerHTML = ball[ballcurrentIndex];
+
+    if (outcurrentIndex === 0) {
+        inningcurrentIndex = (inningcurrentIndex + 1) % inning.length;
+        inningShowing.innerHTML = inning[inningcurrentIndex];
+    }
 });
 
 let strike = [
@@ -50,44 +56,82 @@ let strike = [
 ]
 
 let strikeShowing = document.getElementById("strike-showing")
-let strikecurrentIndex = 0; // Keep track of the current index
-let strikebutton = document.getElementById("strike-button");
-strikebutton.addEventListener("click", () => {
-    strikecurrentIndex = (strikecurrentIndex + 1) % strike.length; // Update the current index to the next item
-    strikeShowing.innerHTML = strike[strikecurrentIndex]; // Display the next item
+let strikecurrentIndex = 0;
+let strikeButton = document.getElementById("strike-button");
+strikeButton.addEventListener("click", () => {
+    strikecurrentIndex = (strikecurrentIndex + 1) % strike.length;
+    strikeShowing.innerHTML = strike[strikecurrentIndex];
+    
+    if (strikecurrentIndex === 0) {
+        outcurrentIndex = (outcurrentIndex + 1) % out.length;
+        outShowing.innerHTML = out[outcurrentIndex];
+        battercurrentIndex = (battercurrentIndex + 1) % batter.length;
+        batterShowing.innerHTML = batter[battercurrentIndex];
+        ballcurrentIndex = 0
+        ballShowing.innerHTML = ball[ballcurrentIndex];
+
+    if (outcurrentIndex === 0) {
+        inningcurrentIndex = (inningcurrentIndex + 1) % inning.length;
+        inningShowing.innerHTML = inning[inningcurrentIndex];
+    }
+    }
 });
+
 
 let ball = [
     "0ボール",
     "1ボール",
     "2ボール",
+    "3ボール"
 ]
 
 let ballShowing = document.getElementById("ball-showing")
-let ballcurrentIndex = 0; // Keep track of the current index
-let ballbutton = document.getElementById("ball-button");
-ballbutton.addEventListener("click", () => {
-    ballcurrentIndex = (ballcurrentIndex + 1) % ball.length; // Update the current index to the next item
-    ballShowing.innerHTML = ball[ballcurrentIndex]; // Display the next item
+let ballcurrentIndex = 0;
+let ballButton = document.getElementById("ball-button");
+ballButton.addEventListener("click", () => {
+    ballcurrentIndex = (ballcurrentIndex + 1) % ball.length;
+    ballShowing.innerHTML = ball[ballcurrentIndex];
+    
+    if (ballcurrentIndex === 0) {
+        battercurrentIndex = (battercurrentIndex + 1) % batter.length;
+        batterShowing.innerHTML = batter[battercurrentIndex];
+        strikecurrentIndex = 0
+        strikeShowing.innerHTML = strike[strikecurrentIndex];
+    }
 });
 
+let inning = [
+    "1回",
+    "2回",
+    "3回",
+    "4回",
+    "5回",
+    "6回",
+    "7回",
+    "8回",
+    "9回",
+]
 
-localStorage.removeItem("menuText")
-if (localStorage.getItem("menuText") == null) {
-    localStorage.setItem("menuText", menu.toString())
+let inningShowing = document.getElementById("inning-showing")
+let inningcurrentIndex = 0;
+
+
+localStorage.removeItem("batterText")
+if (localStorage.getItem("batterText") == null) {
+    localStorage.setItem("batterText", batter.toString())
 }
 
 showLocalStorage()
 
 let removeAllButton = document.getElementById("remove-all-button")
 removeAllButton.addEventListener("click", () => {
-    localStorage.removeItem("menuText")
-    let localStorageValue = localStorage.getItem("menuText")
+    localStorage.removeItem("batterText")
+    let localStorageValue = localStorage.getItem("batterText")
     console.log(localStorageValue)
     showLocalStorage()
 })
 
 function showLocalStorage(){
     let ls = document.getElementById("local-storage")
-    ls.innerHTML = localStorage.getItem("menuText")
+    ls.innerHTML = localStorage.getItem("batterText")
 }
